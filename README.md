@@ -1,2 +1,2 @@
 # EnjyositemitaProject
-# ネタProject
+ネタProject
