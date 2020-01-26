@@ -1,2 +1,2 @@
 # EnjyositemitaProject
-ネタProject
+情報実験
