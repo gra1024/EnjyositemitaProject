@@ -1,0 +1,7 @@
+bomb1.mp3
+効果音ラボ様（https://soundeffect-lab.info/）より　
+爆発１ bomb1.mp3
+
+bomb2.mp3
+効果音ラボ様（https://soundeffect-lab.info/）より
+重いパンチ１ punch-real1.mp3

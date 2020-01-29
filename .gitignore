@@ -354,5 +354,3 @@ MigrationBackup/
 .ionide/
 
 # Private
-data/
-lib/
