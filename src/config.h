@@ -1,14 +1,13 @@
 #pragma once
-#include <stdio.h>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <stdlib.h>
-#include <vector>
-#include <math.h>
+	#include <stdio.h>
+	#include <iostream>
+	#include <sstream>
+	#include <string>
+	#include <stdlib.h>
+	#include <vector>
+	#include <math.h>
 
 #include "DxLib.h"
-#include "erslib19.h"
 
 /*
 int colorBlack = GetColor(0, 0, 0);

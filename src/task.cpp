@@ -1,4 +1,6 @@
+#pragma warning(disable: 4996)
 #include "task.h"
+#include "erslib19.h"
 
 /* ### ‰Šúİ’è ### */
 void Task::setup() {
@@ -17,7 +19,7 @@ void Task::setup() {
 	imageHandle_effect[0] = LoadGraph("../data/img/effect/cursor.png");
 	imageHandle_effect[1] = LoadGraph("../data/img/effect/advertisement.png");
 	imageHandle_effect[2] = LoadGraph("../data/img/effect/smoke.png");
-	imageHandle_effect[3] = LoadGraph("../data/img/effect/craneData.png");
+	imageHandle_effect[3] = LoadGraph("../data/img/effect/crane.png");
 	imageHandle_effect[4] = LoadGraph("../data/img/effect/explosion.png");
 	
 	imageHandle_car[0] = LoadGraph("../data/img/car/junk.png");

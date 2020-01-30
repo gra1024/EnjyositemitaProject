@@ -1,6 +1,14 @@
 #pragma once
 
-#include "config.h"
+#include <stdio.h>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <stdlib.h>
+#include <vector>
+#include <math.h>
+
+#include "DxLib.h"
 
 #define SPEED_MOVE_CAR 20
 #define BUFSIZE 5000
