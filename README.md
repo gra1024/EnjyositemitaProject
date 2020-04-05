@@ -9,7 +9,7 @@
 対象年齢：小学生程度
 
 ## Demo
-![Startmenu]./data/imag/bacGround/demo.png
+![Startmenu]/data/img/backGround/demo.png
 
 ## Requirement
 
