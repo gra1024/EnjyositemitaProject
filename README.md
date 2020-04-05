@@ -11,5 +11,11 @@
 ## Demo
 ![Startmenu](./data/img/backGround/demo.png)
 
-## Requirement
-VS 2019
+## Usage
+操作説明
+八戸高専等で使用する（リモコンがある）場合ー＞設置マニュアル、操作マニュアルを参照(./OperationExplanation/)<br>
+テスト用のキー
+選択画面
+|決定|キー入力|
+|右|D|
+|左|A|
