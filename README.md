@@ -9,7 +9,7 @@
 対象年齢：小学生程度
 
 ## Demo
-./data/imag/bacjground/demo.png
+![Startmenu]./data/imag/bacjground/demo.png
 
 ## Requirement
 
