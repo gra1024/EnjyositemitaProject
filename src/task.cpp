@@ -59,10 +59,14 @@ void Task::setup() {
 	LagCounter = 0;
 	checkHit = 0;
 	countTimer = 0;
+	listModeKeyboard.status = 1; //temporary
+	listModeKeyboard.countdown = 0;
 }
 
 /* ### シーン選択タスク ### */
 int Task::sceneChoice() {
+	modeKeyBoard();
+
 	if (scene == 1) close = showMenu();
 	else if (scene == 2) showAdvertisement();
 	else if (scene == 3) showGame();
@@ -116,17 +120,17 @@ int Task::showMenu() {
 	if (ERS_CheckRecv(inputFromRemoteControl.com) > 0) {
 		inputFromRemoteControl.r = ERS_Recv(inputFromRemoteControl.com, inputFromRemoteControl.buf, 1);
 		inputFromRemoteControl.r = ERS_Send(inputFromRemoteControl.com, inputFromRemoteControl.buf, 1);
-		if (inputFromRemoteControl.buf[0] == 'a' || inputFromRemoteControl.buf[0] == 'A' || CheckHitKey(KEY_INPUT_A) == 1) {
+		if (inputFromRemoteControl.buf[0] == 'a' || inputFromRemoteControl.buf[0] == 'A') {
 			selector--;
 
 			if (selector < 1) selector = 2;
 		}
-		if (inputFromRemoteControl.buf[0] == 'd' || inputFromRemoteControl.buf[0] == 'D' || CheckHitKey(KEY_INPUT_D) == 1) {
+		if (inputFromRemoteControl.buf[0] == 'd' || inputFromRemoteControl.buf[0] == 'D') {
 			selector++;
 			if (selector > 2) selector = 1;
 		}
 		/* シーン移動 */
-		if (inputFromRemoteControl.buf[0] == 'z' || inputFromRemoteControl.buf[0] == 'Z' || CheckHitKey(KEY_INPUT_Z) == 1) {
+		if (inputFromRemoteControl.buf[0] == 'z' || inputFromRemoteControl.buf[0] == 'Z') {
 			if (selector == 1) {
 				selector = 1;
 				scene++;//次のシーンに移動
@@ -136,25 +140,32 @@ int Task::showMenu() {
 			}
 		}
 	}
-	if (CheckHitKey(KEY_INPUT_A) == 1) {
-		selector--;
-		if (selector < 1) selector = 2;
-	}
-	if (CheckHitKey(KEY_INPUT_D) == 1) {
-		selector++;
-		if (selector > 2) selector = 1;
-	}
 
-	/* シーン移動 */
-	if (CheckHitKey(KEY_INPUT_Z) == 1) {
-		if (selector == 1) {
-			selector = 1;
-			scene++;//次のシーンに移動
+	if (listModeKeyboard.status == 1) {
+		if (CheckHitKey(KEY_INPUT_LEFT) == 1) {
+			selector--;
+			if (selector < 1) selector = 2;
+			listModeKeyboard.status = 0;
 		}
-		else {
-			return 1;//システム終了
+		if (CheckHitKey(KEY_INPUT_RIGHT) == 1) {
+			selector++;
+			if (selector > 2) selector = 1;
+			listModeKeyboard.status = 0;
+		}
+
+		/* シーン移動 */
+		if (CheckHitKey(KEY_INPUT_RETURN) == 1) {
+			if (selector == 1) {
+				selector = 1;
+				scene++;//次のシーンに移動
+				listModeKeyboard.status = 0;
+			}
+			else {
+				return 1;//システム終了
+			}
 		}
 	}
+	
 
 	return 0;
 }
@@ -211,9 +222,10 @@ void Task::showAdvertisement() {
 			}
 		}
 	}
-	if (CheckHitKey(KEY_INPUT_Z) == 1) {
+	if (listModeKeyboard.status == 1 && CheckHitKey(KEY_INPUT_RETURN) == 1) {
 		if (countTimer > 160) {
 			countTimer = 2001;
+			listModeKeyboard.status = 0;
 		}
 	}
 	countTimer++;
@@ -313,12 +325,32 @@ void Task::showGame() {
 					if (inputFromRemoteControl.buf[0] == 'y' || inputFromRemoteControl.buf[0] == 'Y') gameCalcCarDamage(5);
 					//魔法
 				}
-				if (CheckHitKey(KEY_INPUT_P) == 1) gameCalcCarDamage(1);//切り下げ
-				else if (CheckHitKey(KEY_INPUT_O) == 1) gameCalcCarDamage(2);//切り上げ
-				//else if (CheckHitKey(KEY_INPUT_I) == 1) gameCalcCarDamage(3);//振る
-				else if (CheckHitKey(KEY_INPUT_U) == 1) gameCalcCarDamage(4);//バイク回す
-				if (CheckHitKey(KEY_INPUT_G) == 1)game.confirmationPreliminaryOperationMotionMagic = 10;
-				if (CheckHitKey(KEY_INPUT_Y) == 1) gameCalcCarDamage(5);
+				if (listModeKeyboard.status == 1) {
+					if (CheckHitKey(KEY_INPUT_P) == 1) {
+						gameCalcCarDamage(1);//切り下げ
+						listModeKeyboard.status = 0;
+					}
+					else if (CheckHitKey(KEY_INPUT_O) == 1) {
+						gameCalcCarDamage(2);//切り上げ
+						listModeKeyboard.status = 0;
+					}
+					/*else if (CheckHitKey(KEY_INPUT_I) == 1){
+						gameCalcCarDamage(3);//振る
+					}*/
+					else if (CheckHitKey(KEY_INPUT_U) == 1) {
+						gameCalcCarDamage(4);//バイク回す
+						listModeKeyboard.status = 0;
+					}
+					if (CheckHitKey(KEY_INPUT_G) == 1) {
+						game.confirmationPreliminaryOperationMotionMagic = 10;
+						listModeKeyboard.status = 0;
+					}
+					if (CheckHitKey(KEY_INPUT_Y) == 1) {
+						gameCalcCarDamage(5);
+						listModeKeyboard.status = 0;
+					}
+				}
+				
 			}
 		}
 		else {
@@ -443,21 +475,27 @@ void Task::showResult() {
 			a = 1;
 		}
 	}
-	if (CheckHitKey(KEY_INPUT_A) == 1) {
-		selector--;
-		if (selector < 1) selector = 2;
+	if (listModeKeyboard.status == 1) {
+		if (CheckHitKey(KEY_INPUT_LEFT) == 1) {
+			selector--;
+			if (selector < 1) selector = 2;
+			listModeKeyboard.status = 0;
+		}
+		if (CheckHitKey(KEY_INPUT_RIGHT) == 1) {
+			selector++;
+			if (selector > 2) selector = 1;
+			listModeKeyboard.status = 0;
+		}
+		if (CheckHitKey(KEY_INPUT_RETURN) == 1) {
+			a = 1;
+			listModeKeyboard.status = 0;
+		}
+		if (countTimer > 4000) {
+			selector = 2;
+			a = 1;
+		}
 	}
-	if (CheckHitKey(KEY_INPUT_D) == 1) {
-		selector++;
-		if (selector > 2) selector = 1;
-	}
-	if (CheckHitKey(KEY_INPUT_Z) == 1) {
-		a = 1;
-	}
-	if (countTimer > 4000) {
-		selector = 2;
-		a = 1;
-	}
+	
 	countTimer++;
 
 	if (a == 1) {
@@ -735,4 +773,14 @@ string Task::formatScore(int num, int type) {
 	if (type == 1) str += ",000,000";
 	if (num == 0)str = '0';
 	return str;
+}
+
+void Task::modeKeyBoard() {
+	if (listModeKeyboard.status == 0) {
+		if (listModeKeyboard.countdown > 2) {
+			listModeKeyboard.countdown = 0;
+			listModeKeyboard.status = 1;
+		}
+		else listModeKeyboard.countdown++;
+	}
 }

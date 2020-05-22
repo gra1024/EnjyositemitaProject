@@ -63,6 +63,11 @@ struct InputFromRemoteControl {
 	char buf[1000];
 };
 
+struct ListModeKeyboard {
+	int status; //1 = 入力可, 0 = クール中, -1 = 非キーボード入力モード
+	int countdown;
+};
+
 class Task
 {
 public:
@@ -86,6 +91,8 @@ private:
 	int drawTimeLimitBar(int currentTime, int maxTime, int color);
 	string formatScore(int num, int type);
 
+	void modeKeyBoard();
+
 	int imageHandle_background[11];
 	int imageHandle_effect[5];
 	int imageHandle_car[13];
@@ -99,11 +106,13 @@ private:
 	int LagCounter;
 	int checkHit;
 	int countTimer;
+	
 	Advertising advertising;
 	GameSystem gameSystem;
 	Game game;
 	SaveData saveData;
 	InputFromRemoteControl inputFromRemoteControl;
+	ListModeKeyboard listModeKeyboard;
 
 	int colorBlack = GetColor(0, 0, 0);
 	int colorRed = GetColor(255, 0, 0);
